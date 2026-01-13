@@ -1,18 +1,20 @@
 const express = require('express'),
      app = express(),
      path = require('path');
+app.use(express.json());
 
-app.get('/', (req, res) => res.send('Hello World!'));
+app.get('/', (req, res) => {
+    res.json({con:true,msg:"success",result: {data:"data"}});
+})
 
-app.get('/names',(req,res)=> {
-    res.sendFile(path.join(__dirname,'/index.html'));
-    // res.send('Hello World!');
-    // res.json({names:["shaun","john","lucifer","blah blah"]})
+app.post('/', (req, res) => {
+    let bodyData = req.body;
+    console.log(bodyData);
+    res.json({con:true,msg:"success",result: bodyData})
 })
 
 app.listen(3000,()=> {
     console.clear();
-    // console.log('Dir Name is ', __dirname);
     console.log(`Server running on port 3000`);
 });
 
