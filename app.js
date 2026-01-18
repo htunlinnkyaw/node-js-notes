@@ -20,6 +20,10 @@ app.get("/", (req, res) => {
   res.send("Welcome From Server");
 });
 
+app.get("/users", (req, res) => {
+  res.json({ con: true, msg: "Users List", results: users });
+});
+
 app.post("/user", (req, res) => {
   let newUser = req.body;
   staff.push(newUser);
