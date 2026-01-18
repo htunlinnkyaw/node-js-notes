@@ -20,6 +20,10 @@ app.get("/", (req, res) => {
   res.send("Welcome From Server");
 });
 
+app.get("/users", (req, res) => {
+  res.json({ con: true, msg: "Users List", results: staff });
+});
+
 app.post("/user", (req, res) => {
   let newUser = req.body;
   staff.push(newUser);
@@ -27,12 +31,39 @@ app.post("/user", (req, res) => {
 });
 
 app.get("/user/:name", (req, res, next) => {
-  let queryName = req.params.name;
-  let user = staff.find((s) => s.name === queryName);
+  let name = req.params.name;
+  let age = req.params.age;
+  let user = staff.find((s) => s.name === name);
   if (user) {
     res.json({ con: true, msg: "Found user", result: user });
   } else {
-    next(new Error("No user  with that name"));
+    next(new Error("No user with that name!"));
+  }
+});
+
+/* 
+app.patch("/user/:name/:salary", (req, res, next) => {
+  let name = req.params.name;
+  let salary = req.params.salary;
+  let findUser = staff.find((s) => s.name === name);
+  if (findUser) {
+    findUser.salary = salary;
+    res.json({ con: true, msg: "Salary updated", result: findUser });
+  } else {
+    next(new Error("No user found with that name!"));
+  }
+});
+*/
+
+app.patch("/user", (req, res, next) => {
+  let name = req.body.name;
+  let salary = Number(req.body.salary);
+  let findUser = staff.find((s) => s.name === name);
+  if (findUser) {
+    findUser.salary = salary;
+    res.json({ con: true, msg: "Salary updated", result: findUser });
+  } else {
+    next(new Error("No user found with that name"));
   }
 });
 
